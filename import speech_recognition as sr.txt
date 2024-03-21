@@ -1,0 +1,42 @@
+import speech_recognition as sr
+import pyttsx3
+import webbrowser
+
+r = sr.Recognizer()
+engine = pyttsx3.init()
+
+def say(text):
+    engine.say(text)
+    engine.runAndWait()
+
+def listen():
+    with sr.Microphone() as source:
+        print("Listening...")
+        audio = r.listen(source)
+    try:
+        text = r.recognize_google(audio, language="tr-TR")
+        return text
+    except sr.UnknownValueError:
+        return ""
+    except sr.RequestError as e:
+        print("Error: {0}".format(e))
+        return ""
+
+while True:
+    text = listen().lower()
+    if "merhaba" in text:
+        say("Sana da merhaba!")
+    elif "nasılsın" in text:
+        say("Ben iyiyim, teşekkür ederim. Sen nasılsın?")
+    elif "iyiyim" in text:
+        say("Ne güzel! Sana nasıl yardımcı olabilirim?")
+    elif "teşekkür ederim" in text:
+        say("Rica ederim!")
+    elif "görüşürüz" in text:
+        say("Görüşürüz! İyi günler dilerim.")
+    elif "google" in text:
+        webbrowser.open("https://www.google.com.tr/")
+    elif "youtube" in text:
+        webbrowser.open("https://www.youtube.com/")
+    
+        break
